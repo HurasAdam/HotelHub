@@ -39,7 +39,7 @@ await user.save()
       maxAge:86400000,
     })
 
-    return res.sendStatus(200);
+    return res.status(200).json({message:"Account has been created"})
   } catch (error) {
     console.log(error);
     return res.status(500).send({ message: "Something went wrong..." });
