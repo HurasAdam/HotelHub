@@ -45,6 +45,16 @@ return res.status(500).send({message:"Something went wrong..."})
     }
 });
 
+router.post("/logout",(req:Request,res:Response)=>{
+    res.cookie("auth_token","",{
+        expires:new Date(0)
+    })
+
+    res.send();
+})
+
+
+
 
 
 router.get("/validate-token",verifyToken,(req:Request,res:Response)=>{
