@@ -1,6 +1,10 @@
 import { useForm } from "react-hook-form";
-
-type RegisterFormData = {
+import { useMutation } from "react-query";
+import * as apiClient from "../api-client";
+import { useAppContext } from "../contexts/AppContext";
+import { useNavigate } from "react-router-dom";
+import axios, { AxiosError } from "axios";
+export type RegisterFormData = {
   firstName: string;
   lastName: string;
   email: string;
@@ -9,11 +13,37 @@ type RegisterFormData = {
 };
 
 const Register = () => {
-  const { register,watch,handleSubmit,formState:{errors} } = useForm<RegisterFormData>();
+  
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterFormData>();
 
-const onSubmit=handleSubmit((data)=>{
-    console.log(data)
-})
+  const navigate = useNavigate();
+  const { showToast } = useAppContext();
+
+  const mutation = useMutation(apiClient.register, {
+    onSuccess: ({message} ) => {
+      showToast({ message: message, type: "SUCCESS" });
+      navigate("/");
+    },
+    onError: (error: AxiosError| Error) => {
+ 
+if(axios.isAxiosError(error)){
+  showToast({ message: error?.response?.data.message, type: "ERROR" });
+}
+  else{
+    showToast({ message:error.message, type: "ERROR" });
+  }
+ 
+    },
+  });
+
+  const onSubmit = handleSubmit((data) => {
+    mutation.mutate(data);
+  });
 
   return (
     <form className="flex flex-col  gap-5" onSubmit={onSubmit}>
@@ -26,10 +56,9 @@ const onSubmit=handleSubmit((data)=>{
             className="border rounded w-full py-1 px-2 font-normal"
             {...register("firstName", { required: "this field is required" })}
           ></input>
-          {errors.firstName&&(
+          {errors.firstName && (
             <span className="text-red-500">{errors.firstName.message}</span>
-          )
-          }
+          )}
         </label>
         <label className="text-gray-700 text-sm font-bold flex-1 ">
           Last Name
@@ -38,10 +67,9 @@ const onSubmit=handleSubmit((data)=>{
             className="border rounded w-full py-1 px-2 font-normal"
             {...register("lastName", { required: "this field is required" })}
           ></input>
-            {errors.lastName&&(
+          {errors.lastName && (
             <span className="text-red-500">{errors.lastName.message}</span>
-          )
-          }
+          )}
         </label>
       </div>
       <div className="flex flex-col  gap-5 px-4 ">
@@ -52,10 +80,9 @@ const onSubmit=handleSubmit((data)=>{
             className="border rounded w-full py-1 px-2 font-normal"
             {...register("email", { required: "this field is required" })}
           ></input>
-          {errors.email&&(
+          {errors.email && (
             <span className="text-red-500">{errors.email.message}</span>
-          )
-          }
+          )}
         </label>
 
         <label className="text-gray-700 text-sm font-bold flex-1 ">
@@ -71,10 +98,9 @@ const onSubmit=handleSubmit((data)=>{
               },
             })}
           ></input>
-          {errors.password&&(
+          {errors.password && (
             <span className="text-red-500">{errors.password.message}</span>
-          )
-          }
+          )}
         </label>
 
         <label className="text-gray-700 text-sm font-bold flex-1 ">
@@ -86,23 +112,25 @@ const onSubmit=handleSubmit((data)=>{
               validate: (val) => {
                 if (!val) {
                   return "This field is required";
-                }
-
-                else if(watch("password")!==val){
-                    return "Your password do not match"
+                } else if (watch("password") !== val) {
+                  return "Your password do not match";
                 }
               },
             })}
           ></input>
-          {errors.confirmPassword&&(
-            <span className="text-red-500">{errors.confirmPassword.message}</span>
-          )
-          }
+          {errors.confirmPassword && (
+            <span className="text-red-500">
+              {errors.confirmPassword.message}
+            </span>
+          )}
         </label>
       </div>
       <span>
-        <button type="submit" className="bg-blue-600 text-white mx-4 p-2 font-bold hover:bg-blue-500 text-xl">
-            Create Account
+        <button
+          type="submit"
+          className="bg-blue-600 text-white mx-4 p-2 font-bold hover:bg-blue-500 text-xl"
+        >
+          Create Account
         </button>
       </span>
     </form>
