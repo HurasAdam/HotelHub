@@ -8,12 +8,10 @@ export const register = async (formData: RegisterFormData) => {
   return response.data;
 };
 
-
-export const signIn= async(formData:SignInFormData)=>{
-  const response = await clientApi.post("auth/login",formData);
+export const signIn = async (formData: SignInFormData) => {
+  const response = await clientApi.post("auth/login", formData);
   return response.data;
-}
-
+};
 
 export const validateToken = async () => {
   const response = await clientApi.get("auth/validate-token", {});
@@ -22,3 +20,8 @@ export const validateToken = async () => {
 };
 
 
+export const signOut = async () => {
+  const response = await clientApi.post("/auth/logout");
+console.log("URRRRA")
+  return response.data;
+};
