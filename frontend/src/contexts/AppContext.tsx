@@ -1,12 +1,11 @@
 import React, { useContext, useState } from "react";
 import Toast from "../components/Toast";
-import { AxiosError } from "axios";
 import { useQuery } from "react-query";
 import * as clientApi from "../api-client"
 
 
 type ToastMessage = {
-  message: string | AxiosError;
+  message: string
   type: "SUCCESS" | "ERROR";
 }
 
@@ -37,7 +36,7 @@ const {isError}=useQuery("validateToken",clientApi.validateToken,{
     >
       {toast && (
         <Toast
-          message={toast.message}
+        message={toast.message}
           type={toast.type}
           onClose={() => setToast(undefined)}
         />
