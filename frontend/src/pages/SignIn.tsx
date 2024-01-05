@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
-
+import { useMutation, useQueryClient } from "react-query";
+import { Link } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import * as apiClient from "../api-client";
 import { useAppContext } from "../contexts/AppContext";
@@ -15,12 +15,14 @@ export type SignInFormData = {
 const SignIn = () => {
   const {register,formState: { errors },handleSubmit,} = useForm<SignInFormData>();
 const { showToast } = useAppContext();
-const navigate= useNavigate()
 
+const queryClient = useQueryClient()
+const navigate= useNavigate()
 
   const mutation = useMutation(apiClient.signIn, {
     onSuccess: async () => {
       showToast({ message: "Sign in sucessful", type: "SUCCESS" });
+      await queryClient.invalidateQueries("validateToken");
       navigate("/")
     },
     onError: (error: AxiosError | Error) => {
@@ -71,12 +73,15 @@ const navigate= useNavigate()
           <span className="text-red-500">{errors.password.message}</span>
         )}
       </label>
-      <span>
+      <span className="flex items center justify-between">
+        <span className="text-sm">
+          Not Registered? <Link className="hover:text-blue-700 underline  " to="/register">Create an account here</Link>
+        </span>
         <button
           type="submit"
           className="bg-blue-600 text-white mx-4 p-2 font-bold hover:bg-blue-500 text-xl"
         >
-          Create Account
+          Login
         </button>
       </span>
     </form>
