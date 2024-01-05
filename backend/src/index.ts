@@ -3,10 +3,12 @@ import cors from "cors";
 import "dotenv/config";
 import mongoose, { mongo } from "mongoose";
 import path from "path";
-import userRoutes from "./routes/users";
-import authRoutes from "./routes/auth";
 import cookieParser from "cookie-parser";
 import {v2 as cloudinary}from "cloudinary"
+import userRoutes from "./routes/users";
+import authRoutes from "./routes/auth";
+import myHotelRoutes from "./routes/my-hotels"
+
 
 cloudinary.config({
   cloud_name:process.env.CLOUDINARY_CLOUD_NAME,
@@ -30,6 +32,7 @@ app.use(express.static(path.join(__dirname,"../../frontend/dist")))
 // ------ROUTES-----------//
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/my-hotels",myHotelRoutes)
 
 // -----DB CONNECTION-----//
 mongoose.connect(process.env.MONGO_URI as string).then(() => {
