@@ -43,6 +43,7 @@ const ManageHotelForm = ({ onSave, isLoading }: Props) => {
       imageFiles,
     } = formDataJson;
 
+    console.log(facilities)
     const formData = new FormData();
 
     formData.append("name", name);
@@ -55,8 +56,8 @@ const ManageHotelForm = ({ onSave, isLoading }: Props) => {
     formData.append("adultCount", adultCount.toString());
     formData.append("childCount", childCount.toString());
 
-    facilities.forEach((facility, index) => {
-      formData.append(`facilities[${index}]}`, facility);
+    facilities.forEach((facility,index) => {
+      formData.append(`facilities[${index}]`, facility);
     });
 
     Array.from(imageFiles).forEach((imageFile) => {
