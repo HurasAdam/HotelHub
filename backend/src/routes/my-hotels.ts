@@ -49,7 +49,7 @@ await hotel.save()
 
 return res.status(201).json(hotel)
 }
-catch(error:){
+catch(error){
 console.log("Error creating hotel:",error);
 return res.status(500).json({message:"Something went wrong.Please check your input and try again. If the problem persists, contact support and provide error code"})
 }
