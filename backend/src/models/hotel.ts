@@ -65,7 +65,7 @@ const hotelSchema = new mongoose.Schema({
     max:5
   },
   imageUrls: [{
-    type: Number,
+    type: String,
     required: true,
   }],
 lastUpdated:{
