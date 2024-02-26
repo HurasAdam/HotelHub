@@ -1,7 +1,7 @@
 import { RegisterFormData } from "./pages/Register";
 import clientApi from "./features/axios/axios";
 import { SignInFormData } from "./pages/SignIn";
-import { HotelType } from "../../backend/src/models/hotel"
+import { HotelType } from "../../backend/src/shared/types"
 
 export const register = async (formData: RegisterFormData) => {
   const response = await clientApi.post("users/register", formData);
@@ -31,5 +31,11 @@ export const addHotel = async (formData: FormData) => {
 
 export const getMyHotels = async (): Promise<HotelType[]> => {
   const response = await clientApi.get("/my-hotels")
+  return response.data
+}
+
+export const getMyHotelById = async (hotelId: string): Promise<HotelType> => {
+
+  const response = await clientApi.get(`/my-hotels/${hotelId}`)
   return response.data
 }
