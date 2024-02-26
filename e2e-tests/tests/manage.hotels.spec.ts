@@ -30,12 +30,30 @@ test("should allow user to add a hotel", async ({ page }) => {
   await page.locator('[name="childCount"]').fill("3");
 
 
-await page.setInputFiles('[name="imageFiles"]',[
-    path.join(__dirname,"files","test_1.jpg"),
-    path.join(__dirname,"files","test_2.jpg"),
-])
+  await page.setInputFiles('[name="imageFiles"]', [
+    path.join(__dirname, "files", "test_1.jpg"),
+    path.join(__dirname, "files", "test_2.jpg"),
+  ])
 
-await page.getByRole('button',{name:"Save"}).click()
-await expect(page.getByText("Hotel has been added")).toBeVisible();
+  await page.getByRole('button', { name: "Save" }).click()
+  await expect(page.getByText("Hotel has been added")).toBeVisible();
 
+
+});
+
+test("should display hotels", async ({ page }) => {
+  await page.goto(`${UI_URL}my-hotels`);
+
+  await expect(page.getByText("Dublin Getaways")).toBeVisible();
+  await expect(page.getByText("Lorem ipsum dolor sit amet")).toBeVisible();
+  await expect(page.getByText("Dublin, Ireland")).toBeVisible();
+  await expect(page.getByText("All Inclusive")).toBeVisible();
+  await expect(page.getByText("$119 per night")).toBeVisible();
+  await expect(page.getByText("2 adults, 3 children")).toBeVisible();
+  await expect(page.getByText("2 Star Rating")).toBeVisible();
+
+  await expect(
+    page.getByRole("link", { name: "View Details" }).first()
+  ).toBeVisible();
+  await expect(page.getByRole("link", { name: "Add Hotel" })).toBeVisible();
 });
