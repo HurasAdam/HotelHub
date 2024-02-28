@@ -39,3 +39,9 @@ export const getMyHotelById = async (hotelId: string): Promise<HotelType> => {
   const response = await clientApi.get(`/my-hotels/${hotelId}`)
   return response.data
 }
+
+export const updateMyHotelById = async (hotelFormData: FormData) => {
+
+  const response = await clientApi.put(`/my-hotels/${hotelFormData.get('hotelId')}`, hotelFormData)
+  return response.data
+}
