@@ -140,6 +140,7 @@ router.put("/:hotelId", verifyToken, upload.array("imageFiles"), async (req: Req
     const updatedImageUrls = await uploadImages(files);
     hotel.imageUrls = [...updatedImageUrls, ...(updatedHotel.imageUrls || [])];
     await hotel.save();
+    res.status(200).json(hotel)
 
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" })
