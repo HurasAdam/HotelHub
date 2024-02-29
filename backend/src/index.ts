@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, "../../frontend/dist")))
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/my-hotels", myHotelRoutes);
-app.use("app/hotels", hotelRoutes);
+app.use("/api/hotels", hotelRoutes);
 
 // -----DB CONNECTION-----//
 mongoose.connect(process.env.MONGO_URI as string).then(() => {

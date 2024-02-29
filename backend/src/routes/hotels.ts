@@ -12,7 +12,7 @@ router.get("/search", async (req: Request, res: Response) => {
 
         const pageSize = 5;
         const pageNumber = parseInt(req.query.page ? req.query.page.toString() : "1");
-        const skipp = (pageNumber - 1 * pageSize);
+        const skipp = (pageNumber - 1) * pageSize;
         const hotels = await Hotel.find().skip(skipp).limit(pageSize);
 
         const total = await Hotel.countDocuments();
@@ -26,7 +26,7 @@ router.get("/search", async (req: Request, res: Response) => {
             }
         }
 
-        res.json(response);
+        res.status(200).json(response);
     }
     catch (error) {
         console.log("error", error);
