@@ -22,7 +22,7 @@ router.get("/search", async (req: Request, res: Response) => {
             pagination: {
                 total,
                 page: pageNumber,
-                pages: Math.ceil(total) / pageSize
+                pages: Math.ceil(total / pageSize)
             }
         }
 
