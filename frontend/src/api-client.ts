@@ -1,7 +1,7 @@
 import { RegisterFormData } from "./pages/Register";
 import clientApi from "./features/axios/axios";
 import { SignInFormData } from "./pages/SignIn";
-import { HotelType } from "../../backend/src/shared/types"
+import { HotelSearchResponse, HotelType } from "../../backend/src/shared/types"
 
 export const register = async (formData: RegisterFormData) => {
   const response = await clientApi.post("users/register", formData);
@@ -44,4 +44,28 @@ export const updateMyHotelById = async (hotelFormData: FormData) => {
 
   const response = await clientApi.put(`/my-hotels/${hotelFormData.get('hotelId')}`, hotelFormData)
   return response.data
+}
+
+export type ISearchParams = {
+  destination?: string;
+  checkIn?: string;
+  checkOut?: string;
+  adultCount?: string;
+  childCount?: string;
+  page?: string;
+}
+
+export const searchHotels = async (searchParams: ISearchParams): Promise<HotelSearchResponse> => {
+
+  const queryParams = new URLSearchParams();
+  queryParams.append("destination", searchParams.destination || "");
+  queryParams.append("checkIn", searchParams.checkIn || "");
+  queryParams.append("checkOut", searchParams.checkOut || "");
+  queryParams.append("adultCount", searchParams.adultCount || "");
+  queryParams.append("childCount", searchParams.childCount || "");
+  queryParams.append("page", searchParams.page || "");
+
+  const response = await clientApi.get(`/hotels/search?${queryParams}`);
+  return response.data;
+
 }
