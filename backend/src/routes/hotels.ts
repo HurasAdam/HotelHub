@@ -10,12 +10,30 @@ router.get("/search", async (req: Request, res: Response) => {
 
     try {
 
+        const query = constructSearchQuery(req.query)
+
+
+        let sortOptions = {};
+
+        switch (req.query.sortOptions) {
+            case "starRating ":
+                sortOptions = { starRating: -1 };
+                break;
+
+            case "pricePerNightAsc":
+                sortOptions = { pricePerNight: 1 };
+                break;
+
+            case "pricePerNightDesc":
+                sortOptions = { pricePerNight: -1 }
+                break;
+        }
 
 
         const pageSize = 5;
         const pageNumber = parseInt(req.query.page ? req.query.page.toString() : "1");
         const skipp = (pageNumber - 1) * pageSize;
-        const hotels = await Hotel.find().skip(skipp).limit(pageSize);
+        const hotels = await Hotel.find(query).sort(sortOptions).skip(skipp).limit(pageSize);
 
         const total = await Hotel.countDocuments();
 
