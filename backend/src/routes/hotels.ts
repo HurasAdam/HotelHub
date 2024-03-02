@@ -13,6 +13,7 @@ router.get("/search", async (req: Request, res: Response) => {
         const query = constructSearchQuery(req.query)
 
 
+
         let sortOptions = {};
 
         switch (req.query.sortOptions) {
@@ -28,6 +29,8 @@ router.get("/search", async (req: Request, res: Response) => {
                 sortOptions = { pricePerNight: -1 }
                 break;
         }
+        console.log(query);
+        console.log(sortOptions);
 
 
         const pageSize = 5;

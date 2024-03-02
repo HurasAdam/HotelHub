@@ -53,6 +53,12 @@ export type ISearchParams = {
   adultCount?: string;
   childCount?: string;
   page?: string;
+  facilities?: string[];
+  types?: string[];
+  stars?: string[];
+  maxPrice?: string;
+  sortOption?: string;
+
 }
 
 export const searchHotels = async (searchParams: ISearchParams): Promise<HotelSearchResponse> => {
@@ -64,6 +70,15 @@ export const searchHotels = async (searchParams: ISearchParams): Promise<HotelSe
   queryParams.append("adultCount", searchParams.adultCount || "");
   queryParams.append("childCount", searchParams.childCount || "");
   queryParams.append("page", searchParams.page || "");
+
+  queryParams.append("maxPrice", searchParams.maxPrice || "");
+  queryParams.append("sortOption", searchParams.sortOption || "");
+
+
+  searchParams.facilities?.forEach((facility) => queryParams.append("facilities", facility));
+  searchParams.types?.forEach((type) => queryParams.append("types", type));
+  searchParams.stars?.forEach((star) => queryParams.append("star", star));
+
 
   const response = await clientApi.get(`/hotels/search?${queryParams}`);
   return response.data;
