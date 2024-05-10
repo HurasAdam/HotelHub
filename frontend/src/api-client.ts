@@ -1,7 +1,15 @@
 import { RegisterFormData } from "./pages/Register";
 import clientApi from "./features/axios/axios";
 import { SignInFormData } from "./pages/SignIn";
-import { HotelSearchResponse, HotelType } from "../../backend/src/shared/types"
+import { HotelSearchResponse, HotelType, UserType } from "../../backend/src/shared/types"
+
+
+export const fetchCurrentUser= async():Promise<UserType>=>{
+  const {data} = await clientApi.get("/users/me",{
+    withCredentials:true
+  })
+  return data;
+}
 
 export const register = async (formData: RegisterFormData) => {
   const response = await clientApi.post("users/register", formData);
@@ -92,3 +100,4 @@ const {data}= await clientApi.get(`/hotels/${hotelId}`)
 return data;
 
 }
+
