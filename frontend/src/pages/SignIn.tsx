@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import * as apiClient from "../api-client";
 import { useAppContext } from "../contexts/AppContext";
@@ -15,6 +15,7 @@ export type SignInFormData = {
 const SignIn = () => {
   const {register,formState: { errors },handleSubmit,} = useForm<SignInFormData>();
 const { showToast } = useAppContext();
+const location = useLocation();
 
 const queryClient = useQueryClient()
 const navigate= useNavigate()
@@ -23,7 +24,7 @@ const navigate= useNavigate()
     onSuccess: async () => {
       showToast({ message: "Sign in sucessful", type: "SUCCESS" });
       await queryClient.invalidateQueries("validateToken");
-      navigate("/")
+      navigate(location.state?.from?.pathname||"/")
     },
     onError: (error: AxiosError | Error) => {
       if (axios.isAxiosError(error)) {
