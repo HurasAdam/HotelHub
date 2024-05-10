@@ -77,7 +77,7 @@ export const searchHotels = async (searchParams: ISearchParams): Promise<HotelSe
 
   searchParams.facilities?.forEach((facility) => queryParams.append("facilities", facility));
   searchParams.types?.forEach((type) => queryParams.append("types", type));
-  searchParams.stars?.forEach((star) => queryParams.append("star", star));
+  searchParams.stars?.forEach((star) => queryParams.append("stars", star));
 
 
   const response = await clientApi.get(`/hotels/search?${queryParams}`);
