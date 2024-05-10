@@ -9,6 +9,32 @@ import verifyToken from "../middleware/auth";
 
 const router = express.Router();
 
+
+router.get("/:id",[
+  param("id").notEmpty().withMessage("Hotel ID is required")
+], async(req:Request,res:Response)=>{
+
+
+  const errors = validationResult(req);
+  if(!errors.isEmpty()){
+    return res.status(400).json({errors:errors.array()});
+  }
+
+const id=req.params.id.toString();
+
+
+
+try{
+const hotel = await Hotel.findById({_id:id})
+res.status(200).json(hotel);
+}catch(error){
+console.log(error);
+res.status(400).json({message:"Error fetching hotel"})
+}
+
+})
+
+
 router.get("/search", async (req: Request, res: Response) => {
   try {
     const query = constructSearchQuery(req.query);

@@ -84,3 +84,11 @@ export const searchHotels = async (searchParams: ISearchParams): Promise<HotelSe
   return response.data;
 
 }
+
+
+export const fetchHotelById= async({hotelId}:{hotelId:string})=>{
+
+const {data}= await clientApi.get(`/hotels/${hotelId}`)
+return data;
+
+}
