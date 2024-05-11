@@ -1,7 +1,8 @@
 import { RegisterFormData } from "./pages/Register";
 import clientApi from "./features/axios/axios";
 import { SignInFormData } from "./pages/SignIn";
-import { HotelSearchResponse, HotelType, UserType } from "../../backend/src/shared/types"
+import { HotelSearchResponse, HotelType, PaymentIntentResponse, UserType } from "../../backend/src/shared/types"
+import { BookingFormData } from "./forms/BookingForm/BookingForm";
 
 
 export const fetchCurrentUser= async():Promise<UserType>=>{
@@ -99,5 +100,21 @@ export const fetchHotelById= async(hotelId:string):Promise<HotelType>=>{
 const {data}= await clientApi.get(`/hotels/${hotelId}`)
 return data;
 
+}
+
+export const createPaymentIntent = async(hotelId:string,numberOfNights:string):Promise<PaymentIntentResponse>=>{
+const {data}=await clientApi.post(`/hotels/${hotelId}/bookings/payment-intent`,{
+  numberOfNights
+});
+return data;
+}
+
+export const createBooking=async(formData:BookingFormData)=>{
+
+console.log(formData)
+
+const {data}=await clientApi.post(`/hotels/${formData.hotelId}/bookings`,formData
+)
+return data;
 }
 
