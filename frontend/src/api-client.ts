@@ -94,6 +94,11 @@ export const searchHotels = async (searchParams: ISearchParams): Promise<HotelSe
 
 }
 
+export const fetchHotels=async():Promise<HotelType[]>=>{
+  const {data}= await clientApi.get("/hotels");
+  return data;
+} 
+
 
 export const fetchHotelById= async(hotelId:string):Promise<HotelType>=>{
 
@@ -122,3 +127,4 @@ export const fetchMyBookings= async():Promise<HotelType[]>=>{
   const {data}= await clientApi.get("/my-bookings");
   return data;
 }
+

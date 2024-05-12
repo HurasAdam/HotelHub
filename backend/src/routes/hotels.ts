@@ -114,10 +114,6 @@ router.post(
     });
 
 
-// console.log("PAYMENT-INTENT-CHECK")
-// console.log(paymentIntent)
-
-
     if (!paymentIntent.client_secret) {
       return res.status(500).json({ message: "Error creating payment intent" });
     }
