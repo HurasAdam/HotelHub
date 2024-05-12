@@ -118,3 +118,7 @@ const {data}=await clientApi.post(`/hotels/${formData.hotelId}/bookings`,formDat
 return data;
 }
 
+export const fetchMyBookings= async():Promise<HotelType[]>=>{
+  const {data}= await clientApi.get("/my-bookings");
+  return data;
+}
